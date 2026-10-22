@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // Defensive barrier against browser extension injections (MetaMask, Phantom, EVM extensions)
+      (function() {
+        try {
+          var _eth = undefined;
+          Object.defineProperty(window, 'ethereum', {
+            configurable: true,
+            enumerable: true,
+            get: function() { return _eth; },
+            set: function(v) { _eth = v; }
+          });
+        } catch (e) {}
+
+        window.addEventListener('error', function(event) {
+          if (
+            (event.filename && (
+              event.filename.indexOf('chrome-extension://') !== -1 ||
+              event.filename.indexOf('moz-extension://') !== -1
+            )) ||
+            (event.message && (
+              event.message.indexOf('ethereum') !== -1 ||
+              event.message.indexOf('Cannot redefine property') !== -1
+            ))
+          ) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(event) {
+          var msg = (event.reason && (event.reason.message || event.reason.stack)) || String(event.reason || '');
+          if (msg.indexOf('ethereum') !== -1 || msg.indexOf('chrome-extension://') !== -1) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>SHEKINAH - Projeto Ao Primeiro Amor</title>
+    <meta name="description" content="Aplicativo cristão completo do Primeiro Amor: Devocional Diário, Quarto Secreto com Áudio Ambiente, Busca Bíblica, Relógio de Jejum, Mural de Clamor e Painel Administrativo Responsivo." />
+    <meta property="og:title" content="SHEKINAH - Projeto Ao Primeiro Amor" />
+    <meta property="og:description" content="Aplicativo cristão completo do Primeiro Amor: Devocional Diário, Quarto Secreto com Áudio Ambiente, Busca Bíblica, Relógio de Jejum, Mural de Clamor e Painel Administrativo Responsivo." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Cinzel:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="./assets/index-DcYhBN53.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index--4IwZmQw.css">
+    <link rel="stylesheet" href="./assets/responsive-menu.css">
+  </head>
+  <body class="bg-[#0c0914] text-[#f5f2fc] antialiased selection:bg-[#e8c88a]/30 selection:text-[#fef0ce]">
+    <div id="root"></div>
+  </body>
+</html>

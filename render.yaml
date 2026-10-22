@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: shekinah
+    runtime: static
+    buildCommand: echo "No build step required; serving prebuilt static files."
+    staticPublishPath: .
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
